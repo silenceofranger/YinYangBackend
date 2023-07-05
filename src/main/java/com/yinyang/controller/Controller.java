@@ -9,7 +9,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/v1")
@@ -33,9 +35,6 @@ public class Controller {
         return user;
     }
 
-
-
-
     @PostMapping("/user")
     public User saveUser(@RequestBody User user){
         User savedUser = userService.saveUser(user);
@@ -53,7 +52,14 @@ public class Controller {
     @PostMapping("/home")
     public List<User> home(@RequestBody UserFilter userFilter){
         String userId = userFilter.getUserId();
-        List<User> users = userService.getUsersExcluding(List.of(userId));
+        User user = getUser(userId);
+        Set<String> likedUserIds = user.getLikedUserIds();
+        Set<String> dislikedUserIds = user.getDislikedUserIds();
+        List<String> excludingUserIds = new ArrayList<>();
+        excludingUserIds.add(userId);
+        excludingUserIds.addAll(likedUserIds);
+        excludingUserIds.addAll(dislikedUserIds);
+        List<User> users = userService.getUsersExcluding(excludingUserIds);
         log.info("event=usersFetchedForUser userId={} totalUsersFetched={}", userId , users.size());
         return users;
     }
