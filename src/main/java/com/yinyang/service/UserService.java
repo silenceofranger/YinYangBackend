@@ -7,7 +7,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -49,5 +51,9 @@ public class UserService {
 
     public User getUserByPhone(String phone) {
         return userRepository.getUserByMobileNumber(phone);
+    }
+
+    public List<User> getUsersByIds(Set<String> userIds) {
+        return userRepository.findAllById(userIds);
     }
 }

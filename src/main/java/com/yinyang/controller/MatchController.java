@@ -20,10 +20,20 @@ public class MatchController {
     @Autowired
     MatchService matchService;
 
+    @GetMapping("match")
+    public List<User> matches(@RequestParam("logInUserId") String logInUserId){
+        return matchService.getMatchedUsersByUserId(logInUserId);
+    }
+
     @PatchMapping("/like")
     public Boolean likeUser(@RequestParam("logInUserId") String logInUserId,
                             @RequestParam("likedUserId") String likedUserId){
-        Boolean isMatch = matchService.userLiked(logInUserId, likedUserId);
-        log.info("event=userFetchedById userId=" + userId);return user;
+        return matchService.userLiked(logInUserId, likedUserId);
+    }
+
+    @PatchMapping("/dislike")
+    public Boolean dislikedUser(@RequestParam("logInUserId") String logInUserId,
+                            @RequestParam("likedUserId") String dislikedUserId){
+        return matchService.userDisliked(logInUserId, dislikedUserId);
     }
 }
