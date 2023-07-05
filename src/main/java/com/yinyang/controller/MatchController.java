@@ -33,7 +33,7 @@ public class MatchController {
 
     @PatchMapping("/dislike")
     public Boolean dislikedUser(@RequestParam("logInUserId") String logInUserId,
-                            @RequestParam("likedUserId") String dislikedUserId){
+                            @RequestParam("dislikedUserId") String dislikedUserId){
         return matchService.userDisliked(logInUserId, dislikedUserId);
     }
 }
